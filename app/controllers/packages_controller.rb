@@ -10,7 +10,7 @@ class PackagesController < ApplicationController
   def delivery_status
     @courier = Courier.find(params[:courier_id])
     @package ||= Package.find(params[:package_id])
-    st = true
+    st = @package.delivery_status == true ? false : true
     @package.update(delivery_status: st)
 
     redirect_to courier_path(@courier)
