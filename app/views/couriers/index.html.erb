@@ -1,0 +1,11 @@
+<%= render 'nav_bar' %>
+
+<div class="container">
+  <% @couriers&.each do |c| %>
+    <div class="card">
+      <div class="card-body">
+        <%= link_to c.name, c %>
+      </div>
+    </div>
+  <% end %>
+</div>
