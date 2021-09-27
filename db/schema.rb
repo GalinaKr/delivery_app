@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_16_022600) do
+ActiveRecord::Schema.define(version: 2021_09_16_074058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,10 +24,11 @@ ActiveRecord::Schema.define(version: 2021_07_16_022600) do
 
   create_table "packages", force: :cascade do |t|
     t.string "tracking_number"
-    t.boolean "delivery_status"
     t.bigint "courier_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.date "estimated_delivery_date"
+    t.integer "delivery_status", default: 0
     t.index ["courier_id"], name: "index_packages_on_courier_id"
   end
 

@@ -3,14 +3,17 @@ class PackagesController < ApplicationController
 
   def create
     @courier = Courier.find(params[:courier_id])
-    @package = @courier&.packages.create(package_params)
+
+    i = params[:delivery_status].to_i
+    @package = @courier&.packages.create(:tracking_number => @tracking_number, :delivery_status => i)
     redirect_to courier_path(@courier)
   end
 
   def delivery_status
+    byebug
     @courier = Courier.find(params[:courier_id])
     @package ||= Package.find(params[:package_id])
-    st = @package.delivery_status == true ? false : true
+    st = @package.delivery_status.to_i
     @package.update(delivery_status: st)
 
     redirect_to courier_path(@courier)
@@ -19,6 +22,6 @@ class PackagesController < ApplicationController
   private
     
   def package_params
-    params.require(:package).permit(:tracking_number, :delivery_status)
+    params.require(:package).permit(:delivery_status)
   end
 end

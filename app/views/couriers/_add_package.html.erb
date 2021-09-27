@@ -9,11 +9,13 @@
       <%= form_with model: [ @courier, @courier&.packages.build ] do |form| %>
         <p>
           <%= form.label :tracking_number %><br>
-          <%= form.text_field :tracking_number %>
+          <%= form.text_field :tracking_number, value: @tracking_number  %>
         </p>
         <p>
           <%= form.label :delivery_status %><br>
-          <%= form.check_box :delivery_status %>
+          <%= form.select :delivery_status,
+                          Package.delivery_statuses,
+                          class:'form-control' %>
         </p>
         <p>
           <%= form.submit "Save", class: "btn btn-primary" %>

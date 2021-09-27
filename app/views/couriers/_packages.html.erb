@@ -2,8 +2,10 @@
     <div class="row">
         <div class="col"><%= p.tracking_number %></div>
         <div class="col">
-          <%= link_to courier_package_delivery_status_path(@courier, p), remote: true, method: 'put' do %>
-            <input type="checkbox" id="packageStatus" <%= p.delivery_status == true ? "checked" : "" %> >
+          <%= form_with(url: courier_package_delivery_status_path(@courier, p), method: "put") do |f|%>
+            <%= f.select :delivery_status,
+                         options_for_select(Package.delivery_statuses),
+                         :onchange => "this.form.submit();" %>
           <% end %>
         </div>
     </div>
