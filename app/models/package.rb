@@ -9,7 +9,27 @@ class Package < ApplicationRecord
   private
 
   def generate_tracking_number
-    # format: YA<8 digits sequence>AA
-    self.tracking_number = 'YA'+rand(10000000..99999999).to_s+'AA'
+    self.tracking_number = next_package_number
   end
+
+  def next_package_number
+    loop do
+      number = "#{first_pattern}#{next_digits}#{last_pattern}"
+      break number unless Package.where(tracking_number: number).exists?
+    end
+  end
+
+  def first_pattern
+    'YA'
+  end
+
+  def last_pattern
+    'AA'
+  end
+
+  def next_digits
+    last_digits = Package.last.tracking_number.gsub(/[#{first_pattern}#{last_pattern}]/, '').to_i
+    "%.3i" %(last_digits + 1)
+  end
+
 end
