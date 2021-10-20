@@ -5,4 +5,5 @@ Rails.application.routes.draw do
 
   resources :delivery_managers
   resources :packages
+  resources :couriers
 end
