@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_20_085214) do
+ActiveRecord::Schema.define(version: 2021_10_20_131713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -51,6 +51,15 @@ ActiveRecord::Schema.define(version: 2021_10_20_085214) do
     t.index ["reset_password_token"], name: "index_delivery_managers_on_reset_password_token", unique: true
   end
 
+  create_table "package_assignments", force: :cascade do |t|
+    t.bigint "courier_id", null: false
+    t.uuid "package_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["courier_id"], name: "index_package_assignments_on_courier_id"
+    t.index ["package_id"], name: "index_package_assignments_on_package_id"
+  end
+
   create_table "packages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "integer_id"
     t.string "tracking_number"
@@ -62,5 +71,7 @@ ActiveRecord::Schema.define(version: 2021_10_20_085214) do
     t.index ["courier_id"], name: "index_packages_on_courier_id"
   end
 
+  add_foreign_key "package_assignments", "couriers"
+  add_foreign_key "package_assignments", "packages"
   add_foreign_key "packages", "couriers"
 end
